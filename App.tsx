@@ -1,118 +1,103 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { useState } from 'react';
+import { SafeAreaView, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  Passkeys,
+  connect,
+  signMessage,
+  signTransaction,
+} from '@passkeys/react-native';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+export default function App() {
+  const [_, setAddresses] = useState();
+  const [credentialId, setCredentialId] = useState();
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <SafeAreaView style={styles.container}>
+      {!credentialId && (
+        <TouchableOpacity
+          onPress={async () => {
+            try {
+              const { addresses, credentialId: id } = await connect();
+              setAddresses(addresses);
+              setCredentialId(id);
+              console.log('addresses', addresses);
+            } catch (error) {
+              console.error(error);
+            }
+          }}
+        >
+          <Text>Connect</Text>
+        </TouchableOpacity>
+      )}
+      {credentialId && (
+        <TouchableOpacity
+          onPress={async () => {
+            try {
+              const signedMessageResponse = await signMessage({
+                message: {
+                  rawMessage: Buffer.from('Hello World!'),
+                },
+                baseAssetName: 'ethereum',
+                credentialId,
+                metadata: { title: 'Sign Message' },
+              });
+              console.log('signedMessageResponse', signedMessageResponse);
+            } catch (error) {
+              console.error(error);
+            }
+          }}
+        >
+          <Text>Sign Message</Text>
+        </TouchableOpacity>
+      )}
+      {credentialId && (
+        <TouchableOpacity
+          onPress={async () => {
+            try {
+              const signTransactionResponse = await signTransaction({
+                transaction: {
+                  txData: {
+                    transactionBuffer: Buffer.from(
+                      'AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAEDlQMu5tnOGTuT6craZOCkndrjA9o2EJb1rBw/ohlcpypy8Z7Z8rsF8SRaO8FE7vKMoIjCMnrsYrINFR5JNNf2tAbd9uHXZaGT2cvhRs7reawctIXtX1s3kTqM9YV+/wCppgV9A6KWVpt6hEMng2GqzikT9gsGmsvUzYWZIQ6KoPcBAgMBAQAJA0BCDwAAAAAA',
+                      'base64'
+                    ),
+                  },
+                  txMeta: Object.create(null),
+                },
+                baseAssetName: 'solana',
+                credentialId,
+                metadata: { title: 'Sign Transaction' },
+              });
+              console.log('signTransactionResponse', signTransactionResponse);
+            } catch (error) {
+              console.error(error);
+            }
+          }}
+        >
+          <Text>Sign Transaction</Text>
+        </TouchableOpacity>
+      )}
+
+      <Passkeys style={styles.passkeys} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  box: {
+    width: '100%',
+    height: '100%',
+    marginVertical: 20,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  passkeys: {
+    width: 1,
+    height: 1,
+    opacity: 0,
   },
 });
-
-export default App;
