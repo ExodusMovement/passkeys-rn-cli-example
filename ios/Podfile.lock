@@ -7,7 +7,7 @@ PODS:
   - hermes-engine (0.76.5):
     - hermes-engine/Pre-built (= 0.76.5)
   - hermes-engine/Pre-built (0.76.5)
-  - passkeys-react-native (0.1.1):
+  - passkeys-react-native (0.2.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1743,7 +1743,7 @@ SPEC CHECKSUMS:
   fmt: 10c6e61f4be25dc963c36bd73fc7b1705fe975be
   glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
   hermes-engine: 06a9c6900587420b90accc394199527c64259db4
-  passkeys-react-native: 6e5b1c77cce9ef71401049a366371c821e3895c1
+  passkeys-react-native: 198f032a27a09960a15703a1fdac5a96a422bfa1
   RCT-Folly: 84578c8756030547307e4572ab1947de1685c599
   RCTDeprecation: fb7d408617e25d7f537940000d766d60149c5fea
   RCTRequired: 9aaf0ffcc1f41f0c671af863970ef25c422a9920

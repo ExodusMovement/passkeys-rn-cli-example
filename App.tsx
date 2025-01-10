@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { SafeAreaView, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, StyleSheet, TouchableOpacity, Text} from 'react-native';
 
 import {
   Passkeys,
@@ -18,15 +18,14 @@ export default function App() {
         <TouchableOpacity
           onPress={async () => {
             try {
-              const { addresses, credentialId: id } = await connect();
+              const {addresses, credentialId: id} = await connect();
               setAddresses(addresses);
               setCredentialId(id);
               console.log('addresses', addresses);
             } catch (error) {
               console.error(error);
             }
-          }}
-        >
+          }}>
           <Text>Connect</Text>
         </TouchableOpacity>
       )}
@@ -40,14 +39,13 @@ export default function App() {
                 },
                 baseAssetName: 'ethereum',
                 credentialId,
-                metadata: { title: 'Sign Message' },
+                metadata: {title: 'Sign Message'},
               });
               console.log('signedMessageResponse', signedMessageResponse);
             } catch (error) {
               console.error(error);
             }
-          }}
-        >
+          }}>
           <Text>Sign Message</Text>
         </TouchableOpacity>
       )}
@@ -60,26 +58,25 @@ export default function App() {
                   txData: {
                     transactionBuffer: Buffer.from(
                       'AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAEDlQMu5tnOGTuT6craZOCkndrjA9o2EJb1rBw/ohlcpypy8Z7Z8rsF8SRaO8FE7vKMoIjCMnrsYrINFR5JNNf2tAbd9uHXZaGT2cvhRs7reawctIXtX1s3kTqM9YV+/wCppgV9A6KWVpt6hEMng2GqzikT9gsGmsvUzYWZIQ6KoPcBAgMBAQAJA0BCDwAAAAAA',
-                      'base64'
+                      'base64',
                     ),
                   },
                   txMeta: Object.create(null),
                 },
                 baseAssetName: 'solana',
                 credentialId,
-                metadata: { title: 'Sign Transaction' },
+                metadata: {title: 'Sign Transaction'},
               });
               console.log('signTransactionResponse', signTransactionResponse);
             } catch (error) {
               console.error(error);
             }
-          }}
-        >
+          }}>
           <Text>Sign Transaction</Text>
         </TouchableOpacity>
       )}
 
-      <Passkeys style={styles.passkeys} />
+      <Passkeys appId="test" style={styles.passkeys} />
     </SafeAreaView>
   );
 }
