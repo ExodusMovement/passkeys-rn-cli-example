@@ -1431,10 +1431,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@passkeys/react-native@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@passkeys/react-native/-/react-native-1.1.0.tgz#9520011287555ece63ad936bc8a261259691fd15"
-  integrity sha512-06XgAp5QJqrfy7UQMfQIje1iSCzaZJtthT/fIvu+UTlmFFuvjSBrzfb2sRt6B3Z3xoN6jX8rV2s/Y36ov+nB4w==
+"@passkeys/react-native@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@passkeys/react-native/-/react-native-1.1.2.tgz#18218702ae147cd929d0c78386e6e7d4cf8797cb"
+  integrity sha512-GgEdpql9zHMNsPhJpxDquktgcQUL+JwHw6lZLe08C8jbeYVpB3cB7Z+IIFPFf3/0P9AMs/o/Ia8vKo5Eb9j6Zg==
   dependencies:
     buffer "^6.0.3"
     traverse "^0.6.10"
